@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Catherine Hurley">
+
+<title>Data visualisation in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="lect1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lect1_files/libs/quarto-html/quarto.js"></script>
+<script src="lect1_files/libs/quarto-html/popper.min.js"></script>
+<script src="lect1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lect1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lect1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lect1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lect1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lect1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lect1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#part-i-introduction-to-ggplot2" id="toc-part-i-introduction-to-ggplot2" class="nav-link active" data-scroll-target="#part-i-introduction-to-ggplot2">Part I: Introduction to ggplot2</a>
+  <ul class="collapse">
+  <li><a href="#recommended-book" id="toc-recommended-book" class="nav-link" data-scroll-target="#recommended-book">Recommended book</a></li>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link" data-scroll-target="#preparation">Preparation</a></li>
+  <li><a href="#why-visualise-data" id="toc-why-visualise-data" class="nav-link" data-scroll-target="#why-visualise-data">Why visualise data?</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
+  <li><a href="#ggplot2" id="toc-ggplot2" class="nav-link" data-scroll-target="#ggplot2">ggplot2</a></li>
+  <li><a href="#basic-plots" id="toc-basic-plots" class="nav-link" data-scroll-target="#basic-plots">Basic plots</a>
+  <ul class="collapse">
+  <li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram">Histogram</a></li>
+  <li><a href="#barplot" id="toc-barplot" class="nav-link" data-scroll-target="#barplot">Barplot</a></li>
+  <li><a href="#a-scatterplot" id="toc-a-scatterplot" class="nav-link" data-scroll-target="#a-scatterplot">A scatterplot</a></li>
+  <li><a href="#a-time-plot" id="toc-a-time-plot" class="nav-link" data-scroll-target="#a-time-plot">A time plot</a></li>
+  </ul></li>
+  <li><a href="#practice-1" id="toc-practice-1" class="nav-link" data-scroll-target="#practice-1">Practice 1</a></li>
+  <li><a href="#anatomy-of-a-ggplot" id="toc-anatomy-of-a-ggplot" class="nav-link" data-scroll-target="#anatomy-of-a-ggplot">Anatomy of a ggplot</a></li>
+  <li><a href="#more-on-layers" id="toc-more-on-layers" class="nav-link" data-scroll-target="#more-on-layers">More on layers</a></li>
+  <li><a href="#more-on-facets" id="toc-more-on-facets" class="nav-link" data-scroll-target="#more-on-facets">More on facets</a></li>
+  <li><a href="#practice-2" id="toc-practice-2" class="nav-link" data-scroll-target="#practice-2">Practice 2</a></li>
+  <li><a href="#alternatives-to-histogram" id="toc-alternatives-to-histogram" class="nav-link" data-scroll-target="#alternatives-to-histogram">Alternatives to histogram</a>
+  <ul class="collapse">
+  <li><a href="#density-plot" id="toc-density-plot" class="nav-link" data-scroll-target="#density-plot">Density plot</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots">Boxplots</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Data visualisation in R</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Catherine Hurley 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Maynooth University
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    
+  </div>
+  
+
+</header>
+
+<section id="part-i-introduction-to-ggplot2" class="level1">
+<h1>Part I: Introduction to ggplot2</h1>
+<section id="recommended-book" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-book">Recommended book</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/wainer.png" class="img-fluid figure-img" style="width:25.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="preparation" class="level2">
+<h2 class="anchored" data-anchor-id="preparation">Preparation</h2>
+<p>You will find the material for this lecture at <a href="https://github.com/cbhurley/CRT2022vis" class="uri">https://github.com/cbhurley/CRT2022vis</a></p>
+<p>First install these packages</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"dataReporter"</span>, <span class="st">"timetk"</span>,<span class="st">"palmerpenguins"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and load with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(timetk) <span class="co"># for the data</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins) <span class="co"># more data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="why-visualise-data" class="level2">
+<h2 class="anchored" data-anchor-id="why-visualise-data">Why visualise data?</h2>
+<p>We can summarise data with numeric summaries like mean, standard deviation and correlation. Why do we need more?</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>       x1             x2             x3             x4    
+ Min.   : 4.0   Min.   : 4.0   Min.   : 4.0   Min.   : 8  
+ 1st Qu.: 6.5   1st Qu.: 6.5   1st Qu.: 6.5   1st Qu.: 8  
+ Median : 9.0   Median : 9.0   Median : 9.0   Median : 8  
+ Mean   : 9.0   Mean   : 9.0   Mean   : 9.0   Mean   : 9  
+ 3rd Qu.:11.5   3rd Qu.:11.5   3rd Qu.:11.5   3rd Qu.: 8  
+ Max.   :14.0   Max.   :14.0   Max.   :14.0   Max.   :19  </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       y1               y2              y3              y4        
+ Min.   : 4.260   Min.   :3.100   Min.   : 5.39   Min.   : 5.250  
+ 1st Qu.: 6.315   1st Qu.:6.695   1st Qu.: 6.25   1st Qu.: 6.170  
+ Median : 7.580   Median :8.140   Median : 7.11   Median : 7.040  
+ Mean   : 7.501   Mean   :7.501   Mean   : 7.50   Mean   : 7.501  
+ 3rd Qu.: 8.570   3rd Qu.:8.950   3rd Qu.: 7.98   3rd Qu.: 8.190  
+ Max.   :10.840   Max.   :9.260   Max.   :12.74   Max.   :12.500  </code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lect1_files/figure-html/anscombe-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Along the same lines is the Datasaurus dataset of Alberto Cairo, who constructs 12 pairwise plots sharing summary stats with a point plot of a dinosaur. See <a href="https://www.autodesk.com/research/publications/same-stats-different-graphs" class="uri">https://www.autodesk.com/research/publications/same-stats-different-graphs</a> and <a href="https://cran.r-project.org/web/packages/datasauRus/vignettes/Datasaurus.html" class="uri">https://cran.r-project.org/web/packages/datasauRus/vignettes/Datasaurus.html</a></p>
+</section>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The data</h2>
+<p>We will use a bike sharing dataset, from the UCI machine learning archive <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/00275/" class="uri">https://archive.ics.uci.edu/ml/machine-learning-databases/00275/</a></p>
+<p>There is daily data and hourly, we will use the hourly.</p>
+<p>The data is available in the R package timetk.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bike_sharing_daily)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 731
+Columns: 16
+$ instant    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ dteday     &lt;date&gt; 2011-01-01, 2011-01-02, 2011-01-03, 2011-01-04, 2011-01-05…
+$ season     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ yr         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ mnth       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ holiday    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,…
+$ weekday    &lt;dbl&gt; 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4,…
+$ workingday &lt;dbl&gt; 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1,…
+$ weathersit &lt;dbl&gt; 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 2,…
+$ temp       &lt;dbl&gt; 0.3441670, 0.3634780, 0.1963640, 0.2000000, 0.2269570, 0.20…
+$ atemp      &lt;dbl&gt; 0.3636250, 0.3537390, 0.1894050, 0.2121220, 0.2292700, 0.23…
+$ hum        &lt;dbl&gt; 0.805833, 0.696087, 0.437273, 0.590435, 0.436957, 0.518261,…
+$ windspeed  &lt;dbl&gt; 0.1604460, 0.2485390, 0.2483090, 0.1602960, 0.1869000, 0.08…
+$ casual     &lt;dbl&gt; 331, 131, 120, 108, 82, 88, 148, 68, 54, 41, 43, 25, 38, 54…
+$ registered &lt;dbl&gt; 654, 670, 1229, 1454, 1518, 1518, 1362, 891, 768, 1280, 122…
+$ cnt        &lt;dbl&gt; 985, 801, 1349, 1562, 1600, 1606, 1510, 959, 822, 1321, 126…</code></pre>
+</div>
+</div>
+<p>This dataset contains the daily count of rental bike transactions between years 2011 and 2012 in Capital bikeshare system with the corresponding weather and seasonal information.</p>
+<p>The two temperature variables temp and atemp (feeling temperature), both are normalised.</p>
+<p>Some of these variables should be factors, so we will fix this up first.</p>
+<p>Notice the dataset is a <code>tbl</code>, which is a variant of <code>data.frame</code>.</p>
+<p>Some of these variables should be factors, so we will fix this up first, using <code>dplyr::mutate</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> bike_sharing_daily</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> <span class="fu">mutate</span>(bike, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">season=</span> <span class="fu">recode_factor</span>(season,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"Winter"</span>, <span class="st">`</span><span class="at">2</span><span class="st">`</span><span class="ot">=</span><span class="st">"Spring"</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">`</span><span class="at">3</span><span class="st">`</span><span class="ot">=</span><span class="st">"Summer"</span>, <span class="st">`</span><span class="at">4</span><span class="st">`</span><span class="ot">=</span><span class="st">"Fall"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The season variable is numeric and it should be a factor. <code>recode_factor</code> will change it to a factor. It also orders the levels corresponding to their numeric ordering.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bike<span class="sc">$</span>season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Winter Winter Winter Winter Winter Winter
+Levels: Winter Spring Summer Fall</code></pre>
+</div>
+</div>
+<p>We will do similar on the variables <code>mnth</code>, <code>holiday</code>, <code>workingday</code>, <code>weathersit</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> bike <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weathersit=</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">recode_factor</span>(weathersit, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"clear"</span>, <span class="st">`</span><span class="at">2</span><span class="st">`</span><span class="ot">=</span><span class="st">"cloudy"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">3</span><span class="st">`</span><span class="ot">=</span><span class="st">"lightP"</span>, <span class="st">`</span><span class="at">4</span><span class="st">`</span><span class="ot">=</span><span class="st">"heavyP"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice here we also make use of the pipe <code>%&gt;%</code> operator. The data <code>bike</code> is fed as input into the next calculation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> bike <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">holiday=</span><span class="fu">recode_factor</span>(holiday, <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"Yes"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">workingday =</span> <span class="fu">recode_factor</span>(workingday, <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"Yes"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yr =</span> <span class="fu">recode_factor</span>(yr,<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">2011</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="dv">2012</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For the variable month, we would like to recode to the values in</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>month.abb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec"</code></pre>
+</div>
+</div>
+<p>without having to type all the months in.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span><span class="fu">factor</span>(month.abb[bike<span class="sc">$</span>mnth])  <span class="co"># will do all the months alphabetically</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 12 levels "Apr","Aug","Dec",..: 5 5 5 5 5 5 5 5 5 5 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">factor</span>(month.abb[bike<span class="sc">$</span>mnth], <span class="at">levels=</span>month.abb) <span class="co"># will order the months correctly</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 12 levels "Jan","Feb","Mar",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bike<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">factor</span>(month.abb[bike<span class="sc">$</span>mnth], <span class="at">levels=</span>month.abb)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>bike<span class="sc">$</span>yday <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">yday</span>(bike<span class="sc">$</span>dteday)  <span class="co"># gives the day in year of the dteday variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we check the data again</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bike)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 731
+Columns: 18
+$ instant    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ dteday     &lt;date&gt; 2011-01-01, 2011-01-02, 2011-01-03, 2011-01-04, 2011-01-05…
+$ season     &lt;fct&gt; Winter, Winter, Winter, Winter, Winter, Winter, Winter, Win…
+$ yr         &lt;fct&gt; 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011,…
+$ mnth       &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ holiday    &lt;fct&gt; No, No, No, No, No, No, No, No, No, No, No, No, No, No, No,…
+$ weekday    &lt;dbl&gt; 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4,…
+$ workingday &lt;fct&gt; No, No, Yes, Yes, Yes, Yes, Yes, No, No, Yes, Yes, Yes, Yes…
+$ weathersit &lt;fct&gt; cloudy, cloudy, clear, clear, clear, clear, cloudy, cloudy,…
+$ temp       &lt;dbl&gt; 0.3441670, 0.3634780, 0.1963640, 0.2000000, 0.2269570, 0.20…
+$ atemp      &lt;dbl&gt; 0.3636250, 0.3537390, 0.1894050, 0.2121220, 0.2292700, 0.23…
+$ hum        &lt;dbl&gt; 0.805833, 0.696087, 0.437273, 0.590435, 0.436957, 0.518261,…
+$ windspeed  &lt;dbl&gt; 0.1604460, 0.2485390, 0.2483090, 0.1602960, 0.1869000, 0.08…
+$ casual     &lt;dbl&gt; 331, 131, 120, 108, 82, 88, 148, 68, 54, 41, 43, 25, 38, 54…
+$ registered &lt;dbl&gt; 654, 670, 1229, 1454, 1518, 1518, 1362, 891, 768, 1280, 122…
+$ cnt        &lt;dbl&gt; 985, 801, 1349, 1562, 1600, 1606, 1510, 959, 822, 1321, 126…
+$ month      &lt;fct&gt; Jan, Jan, Jan, Jan, Jan, Jan, Jan, Jan, Jan, Jan, Jan, Jan,…
+$ yday       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …</code></pre>
+</div>
+</div>
+<p>A good way to check the data for oddities is to use a package that will do a plot, and summary of all the variables. You could do this manually, one variable at a time, but this saves work:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dataReporter<span class="sc">::</span><span class="fu">makeDataReport</span>(bike,<span class="at">replace=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You will find the results at dataReporter_bike.pdf.</p>
+<p>One thing to note from the results, is that <code>weathersit</code> has only three levels. The level <code>heavyP</code> did not occur in the data and was dropped by <code>recode_factor</code>.</p>
+</section>
+<section id="ggplot2" class="level2">
+<h2 class="anchored" data-anchor-id="ggplot2">ggplot2</h2>
+<p>In R, you can use base R (barplot, hist, plot). Here we will use <code>ggplot2</code> functions.</p>
+<p><code>ggplot2</code> is an R package authored by Hadley Wickham for elegant graphics in R. Click on this link <a href="https://ggplot2.tidyverse.org" class="uri">https://ggplot2.tidyverse.org</a> for lots of information.</p>
+<p>Also check out the primer at <a href="https://rstudio.cloud/learn/primers/3" class="uri">https://rstudio.cloud/learn/primers/3</a></p>
+<p>You will find more references at the end of this document.</p>
+</section>
+<section id="basic-plots" class="level2">
+<h2 class="anchored" data-anchor-id="basic-plots">Basic plots</h2>
+<section id="histogram" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="histogram">Histogram</h3>
+<p>Our report used one plot per variable, barplots for factors and histograms for numeric variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>cnt)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="336"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">color=</span><span class="st">"navy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>Here mapping describes how the data is mapped to aesthetics.</p></li>
+<li><p>Aesthetics are what you see on the plot. Here that <code>cnt</code> goes on the x axis.</p></li>
+<li><p>The geom is what is drawn, here a histogram.</p></li>
+<li><p>In the second variant, the fill colour and outline colour for the bars is specified.</p></li>
+<li><p>You could use another variable for the fill or color:</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>cnt, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>You are seeing here for each bar, the count for 2011 and 2012.</li>
+</ul>
+</section>
+<section id="barplot" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="barplot">Barplot</h3>
+<p>For the barplot, the x variable is a factor, or something that can be interpreted as a factor.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>weathersit)) <span class="sc">+</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">color=</span><span class="st">"navy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can add color to this</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>weathersit, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>( )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>and switch to proportions with</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>weathersit, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">"fill"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>geom_col</code> is like <code>geom_bar</code>, except you have a y variable. The plot below shows the number of bikes rented for each month, and in the second variant we colour by year.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color=</span><span class="st">"lightblue"</span>, <span class="at">fill=</span><span class="st">"lightblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>cnt, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a-scatterplot" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="a-scatterplot">A scatterplot</h3>
+<p>The scatterplot is for two numeric variables, and you use <code>geom_point</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can easily bring a third variable for the point colour, and a fourth for shape:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr, <span class="at">shape=</span>season)) <span class="sc">+</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot with shape and colour works better when there is more separation between the groups.</p>
+<p>In the plot below, weekday is a numeric variable so it is mapped to shades of blue. This variable is better represented as a factor, which changes the ggplot.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>weekday)) <span class="sc">+</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bike<span class="sc">$</span>weekday <span class="ot">&lt;-</span> <span class="fu">factor</span>(bike<span class="sc">$</span>weekday)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>weekday)) <span class="sc">+</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Would we expect the relationship between cnt and temp to change with weekday?</p>
+</section>
+<section id="a-time-plot" class="level3">
+<h3 class="anchored" data-anchor-id="a-time-plot">A time plot</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>dteday, <span class="at">y=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="528"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We could use <code>geom_point</code> here but <code>geom_line</code> connects the dots.</p>
+<p>Note that <code>dteday</code> is a <code>date</code> variable in the dataset, which is interpreted correctly for the plot.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="528"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="practice-1" class="level2">
+<h2 class="anchored" data-anchor-id="practice-1">Practice 1</h2>
+<p>Using the <code>penguins</code> dataset, make these two plots:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/practice1-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/practice1-2.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Solution</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">fill =</span> species)) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm)) <span class="sc">+</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> species,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">shape =</span> species)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="anatomy-of-a-ggplot" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-ggplot">Anatomy of a ggplot</h2>
+<p>We have seen that <strong>aesthetics</strong> are linked to variables in a dataset. Aesthetics we have considered are <code>x</code>, <code>y</code>, <code>fill</code> and <code>color</code>.</p>
+<p>Here are some other aesthetics (figure from Wilke book)</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/aes.png" class="img-fluid figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>shape and line type aesthetics are for categorical data (ie factors)</li>
+<li>others can represent factors or numeric variables</li>
+</ul>
+<p><strong>scales</strong> map data values into aesthetics. Eg use <code>scale_x_log10()</code> to log the x coordinates. Default is <code>scale_x_continuous</code>. Adjust this to change axes, for example</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>layers</strong> components of the plot are added in layers, using <code>+</code></p>
+<p><strong>legend</strong> refers to the color index on the right. You will get legends for fill, linetype and other aesthetics.</p>
+<p><strong>themes</strong> refer to non-data components, the background, title, font and so on. Work on this to pretty-up the plot.</p>
+<p><strong>facets</strong> are important, this is a way to split up a plot by a factor. It increases the number of dimensions that can be plotted.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(season))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="more-on-layers" class="level2">
+<h2 class="anchored" data-anchor-id="more-on-layers">More on layers</h2>
+<p>In ggplot the idea is that you build up to the desired plot bit by bit.</p>
+<p>Going back to the scatterplot, let’s add a smooth</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt))<span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>yr))<span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the version above, there is one smooth for the two years. This is because the <code>geom_smooth</code> inherits the aesthetics from the call to <code>ggplot</code>, but as we specified the color in <code>geom_point</code> this was not respected by the smooth.</p>
+<p>If we move <code>color=yr</code> back to aesthetic in the call to ggplot, the grouping is also used by the smooth, so we get two separate smooths.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt, <span class="at">color=</span>yr))<span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By default <code>geom_smooth</code> uses loess, for 1000 observations or less, and a gam otherwise.</p>
+</section>
+<section id="more-on-facets" class="level2">
+<h2 class="anchored" data-anchor-id="more-on-facets">More on facets</h2>
+<p>More than one variable can be added to the facet wrap. For example, you could use <code>facet_wrap(vars(season, yr))</code>, or even better <code>facet_grid</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="at">rows=</span><span class="fu">vars</span>(workingday),<span class="at">cols=</span><span class="fu">vars</span>(season))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And if we add smooths or other fits, these will respect the groups for the colors and facets.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="at">rows=</span><span class="fu">vars</span>(workingday),<span class="at">cols=</span><span class="fu">vars</span>(season))<span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Suppose you want to fit regression lines instead, then simply use <code>method=lm</code> in the <code>geom_smooth</code>.</p>
+<p>This will be essentially fitting the model to the interaction of <code>season</code> and <code>yr</code> with <code>temp</code>.</p>
+<p>To compare the fit with and without interaction, we create the fit and added the fitted values to the dataset, and then use <code>geom_line</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(cnt <span class="sc">~</span> temp<span class="sc">+</span>season<span class="sc">+</span>yr, <span class="at">data=</span>bike)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>bike <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit =</span> <span class="fu">fitted</span>(fit)) <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span>  <span class="co"># points smaller</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="at">rows=</span><span class="fu">vars</span>(workingday),<span class="at">cols=</span><span class="fu">vars</span>(season))<span class="sc">+</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">se=</span>F)<span class="sc">+</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>fit), <span class="at">linetype=</span><span class="st">"twodash"</span>, <span class="at">size=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The fit without interaction does poorly for summer.</p>
+</section>
+<section id="practice-2" class="level2">
+<h2 class="anchored" data-anchor-id="practice-2">Practice 2</h2>
+<p>Using the penguins dataset, make these two plots</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/practice2-1.png" class="img-fluid figure-img" width="912"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/practice2-2.png" class="img-fluid figure-img" width="912"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hint: there are a few ways to get rid of the NA in the <code>sex</code> legend, one is to use <code>scale_colour_discrete(na.translate = FALSE)</code></p>
+<div class="cell">
+<details>
+<summary>Solution</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm)) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex))<span class="sc">+</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> species)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">color=</span>sex)) <span class="sc">+</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> species)<span class="sc">+</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_discrete</span>(<span class="at">na.translate =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>After that you can check out many more examples with this data at <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html" class="uri">https://allisonhorst.github.io/palmerpenguins/articles/intro.html</a></p>
+</section>
+<section id="alternatives-to-histogram" class="level2">
+<h2 class="anchored" data-anchor-id="alternatives-to-histogram">Alternatives to histogram</h2>
+<section id="density-plot" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="density-plot">Density plot</h3>
+<p>We can fit a density estimate to one numeric variable, just replace <code>geom_histogram</code> with <code>geom_density</code></p>
+<p>Here we compare the histogram and density</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">after_stat</span>(density)),<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">color=</span><span class="st">"navy"</span>, <span class="at">alpha=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If you use a fill aesthetic for the density you get</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>cnt, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span>.<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>alpha</code> gives some transparency.</p>
+</section>
+<section id="boxplots" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="boxplots">Boxplots</h3>
+<p>A boxplot in ggplot needs a y and x variable.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">y=</span>cnt,<span class="at">x=</span>season)) <span class="sc">+</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If you do not need an x variable use:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">y=</span>cnt), <span class="at">x=</span><span class="dv">0</span>) <span class="sc">+</span> <span class="co"># any number will do</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Violin plots are a variant using a density folded-over</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">y=</span>cnt,<span class="at">x=</span>season)) <span class="sc">+</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lect1_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>ggridges</code> is an add-on package to <code>ggplot</code> which arranges multiple density plots in a staggered fashion</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggridges")</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>cnt,<span class="at">y=</span>season)) <span class="sc">+</span> </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lect1_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Sometimes these are referred to as joy plots, as they are similar to cover of the famous Joy Division album Unknown Pleasures.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figs/shopping.png" class="img-fluid figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>Data visualization a practical introduction by Kieran Healy <a href="https://socviz.co" class="uri">https://socviz.co</a></p>
+<!-- https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/ -->
+<p>Fundamentals of Data Visualization by Claus Wilke <a href="https://clauswilke.com/dataviz/" class="uri">https://clauswilke.com/dataviz/</a> (no R)</p>
+<div class="cell">
+
+</div>
+<!-- -->
+
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb52" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Data visualisation in R"</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: "Catherine Hurley"</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Maynooth University</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="co">    email: catherine.hurley@mu.ie</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: tibble</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">message=</span><span class="cn">FALSE</span>, <span class="at">warning=</span>F)</span>
+<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part I: Introduction to ggplot2</span></span>
+<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recommended book</span></span>
+<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-33"><a href="#cb52-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-34"><a href="#cb52-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, echo=F, eval=T, out.width="25%", fig.align='center'}</span></span>
+<span id="cb52-35"><a href="#cb52-35" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figs/wainer.png"</span>)</span>
+<span id="cb52-36"><a href="#cb52-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-37"><a href="#cb52-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-38"><a href="#cb52-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-39"><a href="#cb52-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation</span></span>
+<span id="cb52-40"><a href="#cb52-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-41"><a href="#cb52-41" aria-hidden="true" tabindex="-1"></a>You will find the material for this lecture at <span class="ot">&lt;https://github.com/cbhurley/CRT2022vis&gt;</span></span>
+<span id="cb52-42"><a href="#cb52-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a>First install these packages</span>
+<span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=F}</span></span>
+<span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"dataReporter"</span>, <span class="st">"timetk"</span>,<span class="st">"palmerpenguins"</span>))</span>
+<span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-49"><a href="#cb52-49" aria-hidden="true" tabindex="-1"></a>and load with</span>
+<span id="cb52-50"><a href="#cb52-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-53"><a href="#cb52-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-54"><a href="#cb52-54" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb52-55"><a href="#cb52-55" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(timetk) <span class="co"># for the data</span></span>
+<span id="cb52-56"><a href="#cb52-56" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins) <span class="co"># more data</span></span>
+<span id="cb52-57"><a href="#cb52-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-58"><a href="#cb52-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-59"><a href="#cb52-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-60"><a href="#cb52-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-61"><a href="#cb52-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why visualise data?</span></span>
+<span id="cb52-62"><a href="#cb52-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-63"><a href="#cb52-63" aria-hidden="true" tabindex="-1"></a>We can summarise data with numeric summaries like mean, standard deviation and correlation.</span>
+<span id="cb52-64"><a href="#cb52-64" aria-hidden="true" tabindex="-1"></a>Why do we need more?</span>
+<span id="cb52-65"><a href="#cb52-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-66"><a href="#cb52-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, anscombe, echo=F,purl=FALSE}</span></span>
+<span id="cb52-67"><a href="#cb52-67" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anscombe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb52-68"><a href="#cb52-68" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anscombe[,<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb52-69"><a href="#cb52-69" aria-hidden="true" tabindex="-1"></a><span class="do">##-- now some "magic" to do the 4 regressions in a loop:</span></span>
+<span id="cb52-70"><a href="#cb52-70" aria-hidden="true" tabindex="-1"></a>ff <span class="ot">&lt;-</span> y <span class="sc">~</span> x</span>
+<span id="cb52-71"><a href="#cb52-71" aria-hidden="true" tabindex="-1"></a>mods <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">as.list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), <span class="fu">paste0</span>(<span class="st">"lm"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb52-72"><a href="#cb52-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-73"><a href="#cb52-73" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb52-74"><a href="#cb52-74" aria-hidden="true" tabindex="-1"></a>  ff[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">"y"</span>,<span class="st">"x"</span>), i), as.name)</span>
+<span id="cb52-75"><a href="#cb52-75" aria-hidden="true" tabindex="-1"></a>  <span class="do">## or   ff[[2]] &lt;- as.name(paste0("y", i))</span></span>
+<span id="cb52-76"><a href="#cb52-76" aria-hidden="true" tabindex="-1"></a>  <span class="do">##      ff[[3]] &lt;- as.name(paste0("x", i))</span></span>
+<span id="cb52-77"><a href="#cb52-77" aria-hidden="true" tabindex="-1"></a>  mods[[i]] <span class="ot">&lt;-</span> lmi <span class="ot">&lt;-</span> <span class="fu">lm</span>(ff, <span class="at">data =</span> anscombe)</span>
+<span id="cb52-78"><a href="#cb52-78" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print(anova(lmi))</span></span>
+<span id="cb52-79"><a href="#cb52-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb52-80"><a href="#cb52-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-81"><a href="#cb52-81" aria-hidden="true" tabindex="-1"></a><span class="do">## See how close they are (numerically!)</span></span>
+<span id="cb52-82"><a href="#cb52-82" aria-hidden="true" tabindex="-1"></a><span class="co"># sapply(mods, coef)</span></span>
+<span id="cb52-83"><a href="#cb52-83" aria-hidden="true" tabindex="-1"></a><span class="co"># lapply(mods, function(fm) coef(summary(fm)))</span></span>
+<span id="cb52-84"><a href="#cb52-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-85"><a href="#cb52-85" aria-hidden="true" tabindex="-1"></a><span class="do">## Now, do what you should have done in the first place: PLOTS</span></span>
+<span id="cb52-86"><a href="#cb52-86" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fl">0.1</span><span class="sc">+</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma =</span>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb52-87"><a href="#cb52-87" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb52-88"><a href="#cb52-88" aria-hidden="true" tabindex="-1"></a>  ff[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">"y"</span>,<span class="st">"x"</span>), i), as.name)</span>
+<span id="cb52-89"><a href="#cb52-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(ff, <span class="at">data =</span> anscombe, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">"orange"</span>, <span class="at">cex =</span> <span class="fl">1.2</span>,</span>
+<span id="cb52-90"><a href="#cb52-90" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">19</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">13</span>))</span>
+<span id="cb52-91"><a href="#cb52-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(mods[[i]], <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb52-92"><a href="#cb52-92" aria-hidden="true" tabindex="-1"></a>  cc <span class="ot">&lt;-</span> <span class="fu">cor</span>(anscombe[[<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">"x"</span>,i), <span class="at">collapse=</span><span class="st">""</span>)]], anscombe[[<span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">"y"</span>,i), <span class="at">collapse=</span><span class="st">""</span>)]])</span>
+<span id="cb52-93"><a href="#cb52-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">title</span>(<span class="fu">paste0</span>(<span class="st">"cor="</span>, <span class="fu">round</span>(cc,<span class="dv">4</span>), <span class="at">collapse=</span><span class="st">""</span>))</span>
+<span id="cb52-94"><a href="#cb52-94" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb52-95"><a href="#cb52-95" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"Anscombe's 4 Regression data sets"</span>, <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">cex =</span> <span class="fl">1.5</span>)</span>
+<span id="cb52-96"><a href="#cb52-96" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span>
+<span id="cb52-97"><a href="#cb52-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-98"><a href="#cb52-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-99"><a href="#cb52-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-100"><a href="#cb52-100" aria-hidden="true" tabindex="-1"></a>Along the same lines is the Datasaurus dataset of Alberto Cairo, who constructs 12 pairwise plots</span>
+<span id="cb52-101"><a href="#cb52-101" aria-hidden="true" tabindex="-1"></a>sharing summary stats with a point plot of a dinosaur. See</span>
+<span id="cb52-102"><a href="#cb52-102" aria-hidden="true" tabindex="-1"></a><span class="ot">&lt;https://www.autodesk.com/research/publications/same-stats-different-graphs&gt;</span></span>
+<span id="cb52-103"><a href="#cb52-103" aria-hidden="true" tabindex="-1"></a>and  <span class="ot">&lt;https://cran.r-project.org/web/packages/datasauRus/vignettes/Datasaurus.html&gt;</span></span>
+<span id="cb52-104"><a href="#cb52-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-105"><a href="#cb52-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-106"><a href="#cb52-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-107"><a href="#cb52-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-108"><a href="#cb52-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-109"><a href="#cb52-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## The data</span></span>
+<span id="cb52-110"><a href="#cb52-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-111"><a href="#cb52-111" aria-hidden="true" tabindex="-1"></a>We will use a bike sharing dataset, from the UCI machine learning archive <span class="ot">&lt;https://archive.ics.uci.edu/ml/machine-learning-databases/00275/&gt;</span></span>
+<span id="cb52-112"><a href="#cb52-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-113"><a href="#cb52-113" aria-hidden="true" tabindex="-1"></a>There is daily data and hourly, we will use the hourly.</span>
+<span id="cb52-114"><a href="#cb52-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-115"><a href="#cb52-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-116"><a href="#cb52-116" aria-hidden="true" tabindex="-1"></a>The data is available in the R package timetk.</span>
+<span id="cb52-117"><a href="#cb52-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-118"><a href="#cb52-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, getdata}</span></span>
+<span id="cb52-119"><a href="#cb52-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-120"><a href="#cb52-120" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bike_sharing_daily)</span>
+<span id="cb52-121"><a href="#cb52-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-122"><a href="#cb52-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-123"><a href="#cb52-123" aria-hidden="true" tabindex="-1"></a>This dataset contains the daily count of rental bike transactions between years 2011 and 2012 in Capital bikeshare system with the corresponding weather and seasonal information.</span>
+<span id="cb52-124"><a href="#cb52-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-125"><a href="#cb52-125" aria-hidden="true" tabindex="-1"></a>The two temperature variables temp and atemp (feeling temperature), both are normalised.</span>
+<span id="cb52-126"><a href="#cb52-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-127"><a href="#cb52-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-128"><a href="#cb52-128" aria-hidden="true" tabindex="-1"></a>Some of these variables should be factors, so we will fix this up first.</span>
+<span id="cb52-129"><a href="#cb52-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-130"><a href="#cb52-130" aria-hidden="true" tabindex="-1"></a>Notice the dataset is a  <span class="in">`tbl`</span>, which is a variant of <span class="in">`data.frame`</span>.</span>
+<span id="cb52-131"><a href="#cb52-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-132"><a href="#cb52-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-133"><a href="#cb52-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-134"><a href="#cb52-134" aria-hidden="true" tabindex="-1"></a>Some of these variables should be factors, so we will fix this up first, using <span class="in">`dplyr::mutate`</span></span>
+<span id="cb52-135"><a href="#cb52-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-136"><a href="#cb52-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fixdata}</span></span>
+<span id="cb52-137"><a href="#cb52-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-138"><a href="#cb52-138" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> bike_sharing_daily</span>
+<span id="cb52-139"><a href="#cb52-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-140"><a href="#cb52-140" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> <span class="fu">mutate</span>(bike, </span>
+<span id="cb52-141"><a href="#cb52-141" aria-hidden="true" tabindex="-1"></a>               <span class="at">season=</span> <span class="fu">recode_factor</span>(season,</span>
+<span id="cb52-142"><a href="#cb52-142" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"Winter"</span>, <span class="st">`</span><span class="at">2</span><span class="st">`</span><span class="ot">=</span><span class="st">"Spring"</span>, </span>
+<span id="cb52-143"><a href="#cb52-143" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">`</span><span class="at">3</span><span class="st">`</span><span class="ot">=</span><span class="st">"Summer"</span>, <span class="st">`</span><span class="at">4</span><span class="st">`</span><span class="ot">=</span><span class="st">"Fall"</span>))</span>
+<span id="cb52-144"><a href="#cb52-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-145"><a href="#cb52-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-146"><a href="#cb52-146" aria-hidden="true" tabindex="-1"></a>The season variable is numeric and it should be a factor. <span class="in">`recode_factor`</span> will change it to a factor. It also orders</span>
+<span id="cb52-147"><a href="#cb52-147" aria-hidden="true" tabindex="-1"></a>the levels corresponding to their numeric ordering.</span>
+<span id="cb52-148"><a href="#cb52-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-151"><a href="#cb52-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-152"><a href="#cb52-152" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bike<span class="sc">$</span>season)</span>
+<span id="cb52-153"><a href="#cb52-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-154"><a href="#cb52-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-155"><a href="#cb52-155" aria-hidden="true" tabindex="-1"></a>We will do similar on the variables <span class="in">`mnth`</span>, <span class="in">`holiday`</span>, <span class="in">`workingday`</span>, <span class="in">`weathersit`</span>.</span>
+<span id="cb52-156"><a href="#cb52-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-159"><a href="#cb52-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-160"><a href="#cb52-160" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> bike <span class="sc">%&gt;%</span></span>
+<span id="cb52-161"><a href="#cb52-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weathersit=</span> </span>
+<span id="cb52-162"><a href="#cb52-162" aria-hidden="true" tabindex="-1"></a>           <span class="fu">recode_factor</span>(weathersit, </span>
+<span id="cb52-163"><a href="#cb52-163" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"clear"</span>, <span class="st">`</span><span class="at">2</span><span class="st">`</span><span class="ot">=</span><span class="st">"cloudy"</span>,</span>
+<span id="cb52-164"><a href="#cb52-164" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">3</span><span class="st">`</span><span class="ot">=</span><span class="st">"lightP"</span>, <span class="st">`</span><span class="at">4</span><span class="st">`</span><span class="ot">=</span><span class="st">"heavyP"</span>))</span>
+<span id="cb52-165"><a href="#cb52-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-166"><a href="#cb52-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-167"><a href="#cb52-167" aria-hidden="true" tabindex="-1"></a>Notice here we also make use of the pipe <span class="in">`%&gt;%`</span> operator. The data <span class="in">`bike`</span> is fed as input into the next calculation.</span>
+<span id="cb52-168"><a href="#cb52-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-171"><a href="#cb52-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-172"><a href="#cb52-172" aria-hidden="true" tabindex="-1"></a>bike <span class="ot">&lt;-</span> bike <span class="sc">%&gt;%</span></span>
+<span id="cb52-173"><a href="#cb52-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">holiday=</span><span class="fu">recode_factor</span>(holiday, <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"Yes"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-174"><a href="#cb52-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">workingday =</span> <span class="fu">recode_factor</span>(workingday, <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="st">"Yes"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-175"><a href="#cb52-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yr =</span> <span class="fu">recode_factor</span>(yr,<span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">2011</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span><span class="ot">=</span><span class="dv">2012</span>))</span>
+<span id="cb52-176"><a href="#cb52-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-177"><a href="#cb52-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-178"><a href="#cb52-178" aria-hidden="true" tabindex="-1"></a>For the variable month, we would like to recode to the values in</span>
+<span id="cb52-179"><a href="#cb52-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-182"><a href="#cb52-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-183"><a href="#cb52-183" aria-hidden="true" tabindex="-1"></a>month.abb</span>
+<span id="cb52-184"><a href="#cb52-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-185"><a href="#cb52-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-186"><a href="#cb52-186" aria-hidden="true" tabindex="-1"></a>without having to type all the months in.</span>
+<span id="cb52-187"><a href="#cb52-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-190"><a href="#cb52-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-191"><a href="#cb52-191" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span><span class="fu">factor</span>(month.abb[bike<span class="sc">$</span>mnth])  <span class="co"># will do all the months alphabetically</span></span>
+<span id="cb52-192"><a href="#cb52-192" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(f)</span>
+<span id="cb52-193"><a href="#cb52-193" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">factor</span>(month.abb[bike<span class="sc">$</span>mnth], <span class="at">levels=</span>month.abb) <span class="co"># will order the months correctly</span></span>
+<span id="cb52-194"><a href="#cb52-194" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(f)</span>
+<span id="cb52-195"><a href="#cb52-195" aria-hidden="true" tabindex="-1"></a>bike<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">factor</span>(month.abb[bike<span class="sc">$</span>mnth], <span class="at">levels=</span>month.abb)</span>
+<span id="cb52-196"><a href="#cb52-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-197"><a href="#cb52-197" aria-hidden="true" tabindex="-1"></a>bike<span class="sc">$</span>yday <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">yday</span>(bike<span class="sc">$</span>dteday)  <span class="co"># gives the day in year of the dteday variable</span></span>
+<span id="cb52-198"><a href="#cb52-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-199"><a href="#cb52-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-200"><a href="#cb52-200" aria-hidden="true" tabindex="-1"></a>Now we check the data again</span>
+<span id="cb52-203"><a href="#cb52-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-204"><a href="#cb52-204" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bike)</span>
+<span id="cb52-205"><a href="#cb52-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-206"><a href="#cb52-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-207"><a href="#cb52-207" aria-hidden="true" tabindex="-1"></a>A good way to check the data for oddities is to use a package that will do a plot, and summary of </span>
+<span id="cb52-208"><a href="#cb52-208" aria-hidden="true" tabindex="-1"></a>all the variables. You could do this manually, one variable at a time, but this saves work:</span>
+<span id="cb52-209"><a href="#cb52-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-210"><a href="#cb52-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, report, eval=T}</span></span>
+<span id="cb52-211"><a href="#cb52-211" aria-hidden="true" tabindex="-1"></a>dataReporter<span class="sc">::</span><span class="fu">makeDataReport</span>(bike,<span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb52-212"><a href="#cb52-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-213"><a href="#cb52-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-214"><a href="#cb52-214" aria-hidden="true" tabindex="-1"></a>You will find the results at dataReporter_bike.pdf.</span>
+<span id="cb52-215"><a href="#cb52-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-216"><a href="#cb52-216" aria-hidden="true" tabindex="-1"></a>One thing to note from the results, is that <span class="in">`weathersit`</span> has only three levels. The level <span class="in">`heavyP`</span> did not occur</span>
+<span id="cb52-217"><a href="#cb52-217" aria-hidden="true" tabindex="-1"></a>in the data and was dropped by <span class="in">`recode_factor`</span>.</span>
+<span id="cb52-218"><a href="#cb52-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-219"><a href="#cb52-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-220"><a href="#cb52-220" aria-hidden="true" tabindex="-1"></a><span class="fu">## ggplot2</span></span>
+<span id="cb52-221"><a href="#cb52-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-222"><a href="#cb52-222" aria-hidden="true" tabindex="-1"></a>In R, you can use base R (barplot, hist, plot). Here we will use <span class="in">`ggplot2`</span> functions.</span>
+<span id="cb52-223"><a href="#cb52-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-224"><a href="#cb52-224" aria-hidden="true" tabindex="-1"></a><span class="in">`ggplot2`</span> is an R package authored by Hadley Wickham for elegant graphics in R.</span>
+<span id="cb52-225"><a href="#cb52-225" aria-hidden="true" tabindex="-1"></a>Click on this link <span class="ot">&lt;https://ggplot2.tidyverse.org&gt;</span> for lots of information.</span>
+<span id="cb52-226"><a href="#cb52-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-227"><a href="#cb52-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-228"><a href="#cb52-228" aria-hidden="true" tabindex="-1"></a>Also check out the primer at</span>
+<span id="cb52-229"><a href="#cb52-229" aria-hidden="true" tabindex="-1"></a><span class="ot">&lt;https://rstudio.cloud/learn/primers/3&gt;</span></span>
+<span id="cb52-230"><a href="#cb52-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-231"><a href="#cb52-231" aria-hidden="true" tabindex="-1"></a>You will find more references at the end of this document.</span>
+<span id="cb52-232"><a href="#cb52-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-233"><a href="#cb52-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-234"><a href="#cb52-234" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic plots</span></span>
+<span id="cb52-235"><a href="#cb52-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-236"><a href="#cb52-236" aria-hidden="true" tabindex="-1"></a><span class="fu">### Histogram {-}</span></span>
+<span id="cb52-237"><a href="#cb52-237" aria-hidden="true" tabindex="-1"></a>Our report used one plot per variable, barplots for factors and histograms for numeric variables.</span>
+<span id="cb52-238"><a href="#cb52-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-239"><a href="#cb52-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-240"><a href="#cb52-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-241"><a href="#cb52-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-242"><a href="#cb52-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=3.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-243"><a href="#cb52-243" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, </span>
+<span id="cb52-244"><a href="#cb52-244" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>cnt)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span>
+<span id="cb52-245"><a href="#cb52-245" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb52-246"><a href="#cb52-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">color=</span><span class="st">"navy"</span>)</span>
+<span id="cb52-247"><a href="#cb52-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-248"><a href="#cb52-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-249"><a href="#cb52-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Here mapping describes how the data is mapped to aesthetics.</span>
+<span id="cb52-250"><a href="#cb52-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-251"><a href="#cb52-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Aesthetics are what you see on the plot. Here that <span class="in">`cnt`</span> goes on the x axis.</span>
+<span id="cb52-252"><a href="#cb52-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-253"><a href="#cb52-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The geom is what is drawn, here a histogram.</span>
+<span id="cb52-254"><a href="#cb52-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-255"><a href="#cb52-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In the second variant, the fill colour and outline colour for the bars is specified.</span>
+<span id="cb52-256"><a href="#cb52-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-257"><a href="#cb52-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You could use another variable for the fill or color:</span>
+<span id="cb52-258"><a href="#cb52-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-259"><a href="#cb52-259" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=4.5, fig.height=3.5, fig.align="center"}</span></span>
+<span id="cb52-260"><a href="#cb52-260" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>cnt, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-261"><a href="#cb52-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">"black"</span>)</span>
+<span id="cb52-262"><a href="#cb52-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-263"><a href="#cb52-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-264"><a href="#cb52-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>You are seeing here for each bar, the count for 2011 and 2012. </span>
+<span id="cb52-265"><a href="#cb52-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-266"><a href="#cb52-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Barplot {-}</span></span>
+<span id="cb52-267"><a href="#cb52-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-268"><a href="#cb52-268" aria-hidden="true" tabindex="-1"></a>For the barplot, the x variable is a factor, or something that can be interpreted as a factor.</span>
+<span id="cb52-269"><a href="#cb52-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-270"><a href="#cb52-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=3.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-271"><a href="#cb52-271" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>weathersit)) <span class="sc">+</span> </span>
+<span id="cb52-272"><a href="#cb52-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">color=</span><span class="st">"navy"</span>)</span>
+<span id="cb52-273"><a href="#cb52-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-274"><a href="#cb52-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-275"><a href="#cb52-275" aria-hidden="true" tabindex="-1"></a>You can add color to this</span>
+<span id="cb52-276"><a href="#cb52-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-277"><a href="#cb52-277" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-278"><a href="#cb52-278" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>weathersit, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-279"><a href="#cb52-279" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>( )</span>
+<span id="cb52-280"><a href="#cb52-280" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-281"><a href="#cb52-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-282"><a href="#cb52-282" aria-hidden="true" tabindex="-1"></a>and switch to proportions with</span>
+<span id="cb52-283"><a href="#cb52-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-284"><a href="#cb52-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-285"><a href="#cb52-285" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>weathersit, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-286"><a href="#cb52-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">"fill"</span>)</span>
+<span id="cb52-287"><a href="#cb52-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-288"><a href="#cb52-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-289"><a href="#cb52-289" aria-hidden="true" tabindex="-1"></a><span class="in">`geom_col`</span> is like <span class="in">`geom_bar`</span>, except you have a y variable.</span>
+<span id="cb52-290"><a href="#cb52-290" aria-hidden="true" tabindex="-1"></a>The plot below shows the number of bikes rented for each month, and in the second</span>
+<span id="cb52-291"><a href="#cb52-291" aria-hidden="true" tabindex="-1"></a>variant we colour by year.</span>
+<span id="cb52-292"><a href="#cb52-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-293"><a href="#cb52-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-294"><a href="#cb52-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-295"><a href="#cb52-295" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb52-296"><a href="#cb52-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color=</span><span class="st">"lightblue"</span>, <span class="at">fill=</span><span class="st">"lightblue"</span>)</span>
+<span id="cb52-297"><a href="#cb52-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-298"><a href="#cb52-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-299"><a href="#cb52-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-300"><a href="#cb52-300" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-301"><a href="#cb52-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-302"><a href="#cb52-302" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="at">mapping=</span> <span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>cnt, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-303"><a href="#cb52-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span>
+<span id="cb52-304"><a href="#cb52-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-305"><a href="#cb52-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-306"><a href="#cb52-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-307"><a href="#cb52-307" aria-hidden="true" tabindex="-1"></a><span class="fu">### A scatterplot {-}</span></span>
+<span id="cb52-308"><a href="#cb52-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-309"><a href="#cb52-309" aria-hidden="true" tabindex="-1"></a>The scatterplot is for two numeric variables, and you use <span class="in">`geom_point`</span></span>
+<span id="cb52-310"><a href="#cb52-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-311"><a href="#cb52-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=3.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-312"><a href="#cb52-312" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb52-313"><a href="#cb52-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-314"><a href="#cb52-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-315"><a href="#cb52-315" aria-hidden="true" tabindex="-1"></a>We can easily bring a third  variable for the point colour, and a fourth for shape:</span>
+<span id="cb52-316"><a href="#cb52-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-317"><a href="#cb52-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-318"><a href="#cb52-318" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-319"><a href="#cb52-319" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb52-320"><a href="#cb52-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-321"><a href="#cb52-321" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr, <span class="at">shape=</span>season)) <span class="sc">+</span> </span>
+<span id="cb52-322"><a href="#cb52-322" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb52-323"><a href="#cb52-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-324"><a href="#cb52-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-325"><a href="#cb52-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-326"><a href="#cb52-326" aria-hidden="true" tabindex="-1"></a>The plot with shape and colour works better when there is more separation between the groups.</span>
+<span id="cb52-327"><a href="#cb52-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-328"><a href="#cb52-328" aria-hidden="true" tabindex="-1"></a>In the plot below, weekday is a numeric variable so it is mapped to shades of blue.</span>
+<span id="cb52-329"><a href="#cb52-329" aria-hidden="true" tabindex="-1"></a>This variable is better represented as a factor, which changes the ggplot.</span>
+<span id="cb52-330"><a href="#cb52-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-331"><a href="#cb52-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-332"><a href="#cb52-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-333"><a href="#cb52-333" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>weekday)) <span class="sc">+</span> </span>
+<span id="cb52-334"><a href="#cb52-334" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb52-335"><a href="#cb52-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-336"><a href="#cb52-336" aria-hidden="true" tabindex="-1"></a>bike<span class="sc">$</span>weekday <span class="ot">&lt;-</span> <span class="fu">factor</span>(bike<span class="sc">$</span>weekday)</span>
+<span id="cb52-337"><a href="#cb52-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-338"><a href="#cb52-338" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>weekday)) <span class="sc">+</span> </span>
+<span id="cb52-339"><a href="#cb52-339" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb52-340"><a href="#cb52-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-341"><a href="#cb52-341" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-342"><a href="#cb52-342" aria-hidden="true" tabindex="-1"></a>Would we expect the relationship between cnt and temp to change with weekday?</span>
+<span id="cb52-343"><a href="#cb52-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-344"><a href="#cb52-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-345"><a href="#cb52-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-346"><a href="#cb52-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-347"><a href="#cb52-347" aria-hidden="true" tabindex="-1"></a><span class="fu">### A time plot</span></span>
+<span id="cb52-348"><a href="#cb52-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-349"><a href="#cb52-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=5.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-350"><a href="#cb52-350" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>dteday, <span class="at">y=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb52-351"><a href="#cb52-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span>
+<span id="cb52-352"><a href="#cb52-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-353"><a href="#cb52-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-354"><a href="#cb52-354" aria-hidden="true" tabindex="-1"></a>We could use <span class="in">`geom_point`</span> here but <span class="in">`geom_line`</span> connects the dots.</span>
+<span id="cb52-355"><a href="#cb52-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-356"><a href="#cb52-356" aria-hidden="true" tabindex="-1"></a>Note that <span class="in">`dteday`</span> is a <span class="in">`date`</span> variable in the dataset, which is interpreted correctly for the plot.</span>
+<span id="cb52-357"><a href="#cb52-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-358"><a href="#cb52-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=5.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-359"><a href="#cb52-359" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb52-360"><a href="#cb52-360" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-361"><a href="#cb52-361" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span>
+<span id="cb52-362"><a href="#cb52-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-363"><a href="#cb52-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-364"><a href="#cb52-364" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practice 1</span></span>
+<span id="cb52-365"><a href="#cb52-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-366"><a href="#cb52-366" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`penguins`</span> dataset, make these two plots:</span>
+<span id="cb52-367"><a href="#cb52-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, practice1,fig.width=4.5, fig.height=3, fig.align="center", echo=F}</span></span>
+<span id="cb52-368"><a href="#cb52-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-369"><a href="#cb52-369" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">fill =</span> species)) <span class="sc">+</span></span>
+<span id="cb52-370"><a href="#cb52-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() </span>
+<span id="cb52-371"><a href="#cb52-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-372"><a href="#cb52-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-373"><a href="#cb52-373" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm)) <span class="sc">+</span></span>
+<span id="cb52-374"><a href="#cb52-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> species,</span>
+<span id="cb52-375"><a href="#cb52-375" aria-hidden="true" tabindex="-1"></a>                 <span class="at">shape =</span> species)) </span>
+<span id="cb52-376"><a href="#cb52-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-377"><a href="#cb52-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-378"><a href="#cb52-378" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, practice1,eval=F}</span></span>
+<span id="cb52-379"><a href="#cb52-379" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb52-380"><a href="#cb52-380" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Solution"</span></span>
+<span id="cb52-381"><a href="#cb52-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-382"><a href="#cb52-382" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-383"><a href="#cb52-383" aria-hidden="true" tabindex="-1"></a><span class="fu">## Anatomy of a ggplot</span></span>
+<span id="cb52-384"><a href="#cb52-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-385"><a href="#cb52-385" aria-hidden="true" tabindex="-1"></a>We have seen that **aesthetics** are linked to variables in a dataset. Aesthetics</span>
+<span id="cb52-386"><a href="#cb52-386" aria-hidden="true" tabindex="-1"></a>we have considered are <span class="in">`x`</span>, <span class="in">`y`</span>, <span class="in">`fill`</span> and <span class="in">`color`</span>.</span>
+<span id="cb52-387"><a href="#cb52-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-388"><a href="#cb52-388" aria-hidden="true" tabindex="-1"></a>Here are some other aesthetics (figure from Wilke book)</span>
+<span id="cb52-389"><a href="#cb52-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-390"><a href="#cb52-390" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, echo=F, eval=T, out.width="75%", fig.align='center'}</span></span>
+<span id="cb52-391"><a href="#cb52-391" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figs/aes.png"</span>)</span>
+<span id="cb52-392"><a href="#cb52-392" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-393"><a href="#cb52-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-394"><a href="#cb52-394" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>shape and line type aesthetics are for categorical data (ie factors)</span>
+<span id="cb52-395"><a href="#cb52-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>others can represent factors or numeric variables</span>
+<span id="cb52-396"><a href="#cb52-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-397"><a href="#cb52-397" aria-hidden="true" tabindex="-1"></a>**scales** map data values into aesthetics. Eg use <span class="in">`scale_x_log10()`</span> to log the x coordinates.</span>
+<span id="cb52-398"><a href="#cb52-398" aria-hidden="true" tabindex="-1"></a>Default is <span class="in">`scale_x_continuous`</span>. Adjust this to change axes, for example</span>
+<span id="cb52-399"><a href="#cb52-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-400"><a href="#cb52-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-401"><a href="#cb52-401" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=6.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-402"><a href="#cb52-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-403"><a href="#cb52-403" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-404"><a href="#cb52-404" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span>
+<span id="cb52-405"><a href="#cb52-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-406"><a href="#cb52-406" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-407"><a href="#cb52-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-408"><a href="#cb52-408" aria-hidden="true" tabindex="-1"></a>**layers**  components of the plot are added in layers, using <span class="in">`+`</span></span>
+<span id="cb52-409"><a href="#cb52-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-410"><a href="#cb52-410" aria-hidden="true" tabindex="-1"></a>**legend** refers to the color index on the right. You will get legends for fill, linetype and other aesthetics.</span>
+<span id="cb52-411"><a href="#cb52-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-412"><a href="#cb52-412" aria-hidden="true" tabindex="-1"></a>**themes** refer to non-data components, the background, title, font and so on. Work on this to pretty-up the plot.</span>
+<span id="cb52-413"><a href="#cb52-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-414"><a href="#cb52-414" aria-hidden="true" tabindex="-1"></a>**facets** are important, this is a way to split up a plot by a factor. It increases the number of dimensions that can</span>
+<span id="cb52-415"><a href="#cb52-415" aria-hidden="true" tabindex="-1"></a>be plotted.</span>
+<span id="cb52-416"><a href="#cb52-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-417"><a href="#cb52-417" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=6.5, fig.height=5.5, fig.align="center"}</span></span>
+<span id="cb52-418"><a href="#cb52-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-419"><a href="#cb52-419" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-420"><a href="#cb52-420" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb52-421"><a href="#cb52-421" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(season))</span>
+<span id="cb52-422"><a href="#cb52-422" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-423"><a href="#cb52-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-424"><a href="#cb52-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-425"><a href="#cb52-425" aria-hidden="true" tabindex="-1"></a><span class="fu">## More on layers</span></span>
+<span id="cb52-426"><a href="#cb52-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-427"><a href="#cb52-427" aria-hidden="true" tabindex="-1"></a>In ggplot the idea is that you build up to the desired plot bit by bit.</span>
+<span id="cb52-428"><a href="#cb52-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-429"><a href="#cb52-429" aria-hidden="true" tabindex="-1"></a>Going back to the scatterplot, let's add a smooth</span>
+<span id="cb52-430"><a href="#cb52-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-431"><a href="#cb52-431" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-432"><a href="#cb52-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-433"><a href="#cb52-433" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt))<span class="sc">+</span></span>
+<span id="cb52-434"><a href="#cb52-434" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>yr))<span class="sc">+</span></span>
+<span id="cb52-435"><a href="#cb52-435" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-436"><a href="#cb52-436" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-437"><a href="#cb52-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-438"><a href="#cb52-438" aria-hidden="true" tabindex="-1"></a>In the version above, there is one smooth for the two years. This is because the <span class="in">`geom_smooth`</span> inherits the aesthetics from the call to <span class="in">`ggplot`</span>, but as we specified the color in <span class="in">`geom_point`</span> this was not respected by the smooth.</span>
+<span id="cb52-439"><a href="#cb52-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-440"><a href="#cb52-440" aria-hidden="true" tabindex="-1"></a>If we move <span class="in">`color=yr`</span> back to  aesthetic in the call to ggplot, the</span>
+<span id="cb52-441"><a href="#cb52-441" aria-hidden="true" tabindex="-1"></a>grouping is also used by the smooth, so we get two separate smooths.</span>
+<span id="cb52-442"><a href="#cb52-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-443"><a href="#cb52-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-444"><a href="#cb52-444" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-445"><a href="#cb52-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-446"><a href="#cb52-446" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bike, <span class="fu">aes</span>(<span class="at">x=</span>yday, <span class="at">y=</span>cnt, <span class="at">color=</span>yr))<span class="sc">+</span></span>
+<span id="cb52-447"><a href="#cb52-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb52-448"><a href="#cb52-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-449"><a href="#cb52-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-450"><a href="#cb52-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-451"><a href="#cb52-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-452"><a href="#cb52-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-453"><a href="#cb52-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-454"><a href="#cb52-454" aria-hidden="true" tabindex="-1"></a>By default <span class="in">`geom_smooth`</span> uses loess, for 1000 observations or less, and a gam otherwise.</span>
+<span id="cb52-455"><a href="#cb52-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-456"><a href="#cb52-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-457"><a href="#cb52-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-458"><a href="#cb52-458" aria-hidden="true" tabindex="-1"></a><span class="fu">## More on facets</span></span>
+<span id="cb52-459"><a href="#cb52-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-460"><a href="#cb52-460" aria-hidden="true" tabindex="-1"></a>More than one variable can be added to the facet wrap. For example, you could use</span>
+<span id="cb52-461"><a href="#cb52-461" aria-hidden="true" tabindex="-1"></a><span class="in">`facet_wrap(vars(season, yr))`</span>,</span>
+<span id="cb52-462"><a href="#cb52-462" aria-hidden="true" tabindex="-1"></a>or even better <span class="in">`facet_grid`</span></span>
+<span id="cb52-463"><a href="#cb52-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-464"><a href="#cb52-464" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=9, fig.height=4, fig.align="center"}</span></span>
+<span id="cb52-465"><a href="#cb52-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-466"><a href="#cb52-466" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-467"><a href="#cb52-467" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb52-468"><a href="#cb52-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="at">rows=</span><span class="fu">vars</span>(workingday),<span class="at">cols=</span><span class="fu">vars</span>(season))</span>
+<span id="cb52-469"><a href="#cb52-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-470"><a href="#cb52-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-471"><a href="#cb52-471" aria-hidden="true" tabindex="-1"></a>And if we add smooths or other fits, these will respect the groups for the colors and facets.</span>
+<span id="cb52-472"><a href="#cb52-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-473"><a href="#cb52-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-474"><a href="#cb52-474" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=9, fig.height=4, fig.align="center"}</span></span>
+<span id="cb52-475"><a href="#cb52-475" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-476"><a href="#cb52-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb52-477"><a href="#cb52-477" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="at">rows=</span><span class="fu">vars</span>(workingday),<span class="at">cols=</span><span class="fu">vars</span>(season))<span class="sc">+</span></span>
+<span id="cb52-478"><a href="#cb52-478" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span>F)</span>
+<span id="cb52-479"><a href="#cb52-479" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-480"><a href="#cb52-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-481"><a href="#cb52-481" aria-hidden="true" tabindex="-1"></a>Suppose you want to fit regression lines instead, then simply use <span class="in">`method=lm`</span> in the <span class="in">`geom_smooth`</span>.</span>
+<span id="cb52-482"><a href="#cb52-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-483"><a href="#cb52-483" aria-hidden="true" tabindex="-1"></a>This will be essentially fitting the model to the interaction of <span class="in">`season`</span> and <span class="in">`yr`</span> with <span class="in">`temp`</span>.</span>
+<span id="cb52-484"><a href="#cb52-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-485"><a href="#cb52-485" aria-hidden="true" tabindex="-1"></a>To compare the fit with and without interaction, we create the fit and</span>
+<span id="cb52-486"><a href="#cb52-486" aria-hidden="true" tabindex="-1"></a>added the fitted values to the dataset, and then use <span class="in">`geom_line`</span>.</span>
+<span id="cb52-487"><a href="#cb52-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-488"><a href="#cb52-488" aria-hidden="true" tabindex="-1"></a><span class="in">```{r,  fig.width=9, fig.height=4, fig.align="center"}</span></span>
+<span id="cb52-489"><a href="#cb52-489" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(cnt <span class="sc">~</span> temp<span class="sc">+</span>season<span class="sc">+</span>yr, <span class="at">data=</span>bike)</span>
+<span id="cb52-490"><a href="#cb52-490" aria-hidden="true" tabindex="-1"></a>bike <span class="sc">%&gt;%</span> </span>
+<span id="cb52-491"><a href="#cb52-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit =</span> <span class="fu">fitted</span>(fit)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-492"><a href="#cb52-492" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>temp, <span class="at">y=</span>cnt, <span class="at">color=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-493"><a href="#cb52-493" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span>  <span class="co"># points smaller</span></span>
+<span id="cb52-494"><a href="#cb52-494" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>( <span class="at">rows=</span><span class="fu">vars</span>(workingday),<span class="at">cols=</span><span class="fu">vars</span>(season))<span class="sc">+</span></span>
+<span id="cb52-495"><a href="#cb52-495" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">se=</span>F)<span class="sc">+</span></span>
+<span id="cb52-496"><a href="#cb52-496" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>fit), <span class="at">linetype=</span><span class="st">"twodash"</span>, <span class="at">size=</span><span class="fl">1.5</span>)</span>
+<span id="cb52-497"><a href="#cb52-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-498"><a href="#cb52-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-499"><a href="#cb52-499" aria-hidden="true" tabindex="-1"></a>The fit without interaction does poorly for summer.</span>
+<span id="cb52-500"><a href="#cb52-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-501"><a href="#cb52-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-502"><a href="#cb52-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-503"><a href="#cb52-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-504"><a href="#cb52-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-505"><a href="#cb52-505" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practice 2</span></span>
+<span id="cb52-506"><a href="#cb52-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-507"><a href="#cb52-507" aria-hidden="true" tabindex="-1"></a>Using the penguins dataset, make these two plots</span>
+<span id="cb52-508"><a href="#cb52-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-509"><a href="#cb52-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-510"><a href="#cb52-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-511"><a href="#cb52-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-512"><a href="#cb52-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-513"><a href="#cb52-513" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, practice2,fig.width=9.5, fig.height=3, fig.align="center", echo=F}</span></span>
+<span id="cb52-514"><a href="#cb52-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-515"><a href="#cb52-515" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm)) <span class="sc">+</span></span>
+<span id="cb52-516"><a href="#cb52-516" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex))<span class="sc">+</span></span>
+<span id="cb52-517"><a href="#cb52-517" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> species)</span>
+<span id="cb52-518"><a href="#cb52-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-519"><a href="#cb52-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-520"><a href="#cb52-520" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">color=</span>sex)) <span class="sc">+</span></span>
+<span id="cb52-521"><a href="#cb52-521" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb52-522"><a href="#cb52-522" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> species)<span class="sc">+</span></span>
+<span id="cb52-523"><a href="#cb52-523" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>, <span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb52-524"><a href="#cb52-524" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_discrete</span>(<span class="at">na.translate =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb52-525"><a href="#cb52-525" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-526"><a href="#cb52-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-527"><a href="#cb52-527" aria-hidden="true" tabindex="-1"></a>Hint: there are a few ways to get rid of the NA in the <span class="in">`sex`</span> legend, one is to use</span>
+<span id="cb52-528"><a href="#cb52-528" aria-hidden="true" tabindex="-1"></a><span class="in">`scale_colour_discrete(na.translate = FALSE)`</span></span>
+<span id="cb52-529"><a href="#cb52-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-530"><a href="#cb52-530" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, practice2,eval=F}</span></span>
+<span id="cb52-531"><a href="#cb52-531" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb52-532"><a href="#cb52-532" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: "Solution"</span></span>
+<span id="cb52-533"><a href="#cb52-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-534"><a href="#cb52-534" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-535"><a href="#cb52-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-536"><a href="#cb52-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-537"><a href="#cb52-537" aria-hidden="true" tabindex="-1"></a>After that you can check out many more examples with this data at</span>
+<span id="cb52-538"><a href="#cb52-538" aria-hidden="true" tabindex="-1"></a><span class="ot">&lt;https://allisonhorst.github.io/palmerpenguins/articles/intro.html&gt;</span></span>
+<span id="cb52-539"><a href="#cb52-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-540"><a href="#cb52-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-541"><a href="#cb52-541" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alternatives to histogram</span></span>
+<span id="cb52-542"><a href="#cb52-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-543"><a href="#cb52-543" aria-hidden="true" tabindex="-1"></a><span class="fu">### Density plot {-}</span></span>
+<span id="cb52-544"><a href="#cb52-544" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-545"><a href="#cb52-545" aria-hidden="true" tabindex="-1"></a>We can fit a density estimate to one numeric variable, just replace <span class="in">`geom_histogram`</span></span>
+<span id="cb52-546"><a href="#cb52-546" aria-hidden="true" tabindex="-1"></a>with <span class="in">`geom_density`</span></span>
+<span id="cb52-547"><a href="#cb52-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-548"><a href="#cb52-548" aria-hidden="true" tabindex="-1"></a>Here we compare the histogram and density</span>
+<span id="cb52-549"><a href="#cb52-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-550"><a href="#cb52-550" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=3.5, fig.height=3, fig.align="center", eval=T}</span></span>
+<span id="cb52-551"><a href="#cb52-551" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>cnt)) <span class="sc">+</span> </span>
+<span id="cb52-552"><a href="#cb52-552" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb52-553"><a href="#cb52-553" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">after_stat</span>(density)),<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">color=</span><span class="st">"navy"</span>, <span class="at">alpha=</span>.<span class="dv">5</span>)</span>
+<span id="cb52-554"><a href="#cb52-554" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-555"><a href="#cb52-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-556"><a href="#cb52-556" aria-hidden="true" tabindex="-1"></a>If you use a fill aesthetic for the density you get</span>
+<span id="cb52-557"><a href="#cb52-557" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=4.5, fig.height=3, fig.align="center", eval=T}</span></span>
+<span id="cb52-558"><a href="#cb52-558" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>cnt, <span class="at">fill=</span>yr)) <span class="sc">+</span> </span>
+<span id="cb52-559"><a href="#cb52-559" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha=</span>.<span class="dv">5</span>)</span>
+<span id="cb52-560"><a href="#cb52-560" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-561"><a href="#cb52-561" aria-hidden="true" tabindex="-1"></a><span class="in">`alpha`</span> gives some transparency.</span>
+<span id="cb52-562"><a href="#cb52-562" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb52-563"><a href="#cb52-563" aria-hidden="true" tabindex="-1"></a><span class="fu">### Boxplots {-}</span></span>
+<span id="cb52-564"><a href="#cb52-564" aria-hidden="true" tabindex="-1"></a>A boxplot in ggplot needs a y and x variable. </span>
+<span id="cb52-565"><a href="#cb52-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-566"><a href="#cb52-566" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-567"><a href="#cb52-567" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">y=</span>cnt,<span class="at">x=</span>season)) <span class="sc">+</span> </span>
+<span id="cb52-568"><a href="#cb52-568" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() </span>
+<span id="cb52-569"><a href="#cb52-569" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-570"><a href="#cb52-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-571"><a href="#cb52-571" aria-hidden="true" tabindex="-1"></a>If you do not need an x variable use:</span>
+<span id="cb52-572"><a href="#cb52-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-573"><a href="#cb52-573" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=3.5, fig.height=3, fig.align="center", eval=T}</span></span>
+<span id="cb52-574"><a href="#cb52-574" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">y=</span>cnt), <span class="at">x=</span><span class="dv">0</span>) <span class="sc">+</span> <span class="co"># any number will do</span></span>
+<span id="cb52-575"><a href="#cb52-575" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()  </span>
+<span id="cb52-576"><a href="#cb52-576" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-577"><a href="#cb52-577" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-578"><a href="#cb52-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-579"><a href="#cb52-579" aria-hidden="true" tabindex="-1"></a>Violin plots are a variant using a density folded-over</span>
+<span id="cb52-580"><a href="#cb52-580" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-581"><a href="#cb52-581" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=4.5, fig.height=3, fig.align="center"}</span></span>
+<span id="cb52-582"><a href="#cb52-582" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">y=</span>cnt,<span class="at">x=</span>season)) <span class="sc">+</span> </span>
+<span id="cb52-583"><a href="#cb52-583" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>)</span>
+<span id="cb52-584"><a href="#cb52-584" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-585"><a href="#cb52-585" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-586"><a href="#cb52-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-587"><a href="#cb52-587" aria-hidden="true" tabindex="-1"></a><span class="in">`ggridges`</span> is an add-on package to <span class="in">`ggplot`</span> which  arranges multiple density plots in a staggered fashion</span>
+<span id="cb52-588"><a href="#cb52-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-589"><a href="#cb52-589" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.width=6}</span></span>
+<span id="cb52-590"><a href="#cb52-590" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-591"><a href="#cb52-591" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggridges")</span></span>
+<span id="cb52-592"><a href="#cb52-592" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb52-593"><a href="#cb52-593" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>bike, <span class="fu">aes</span>(<span class="at">x=</span>cnt,<span class="at">y=</span>season)) <span class="sc">+</span> </span>
+<span id="cb52-594"><a href="#cb52-594" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb52-595"><a href="#cb52-595" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>)</span>
+<span id="cb52-596"><a href="#cb52-596" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-597"><a href="#cb52-597" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-598"><a href="#cb52-598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-599"><a href="#cb52-599" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-600"><a href="#cb52-600" aria-hidden="true" tabindex="-1"></a>Sometimes these are referred to as joy plots, as they are similar to cover of the famous Joy Division album Unknown Pleasures.</span>
+<span id="cb52-601"><a href="#cb52-601" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, echo=F, eval=T, out.width="30%", fig.align='center'}</span></span>
+<span id="cb52-602"><a href="#cb52-602" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figs/shopping.png"</span>)</span>
+<span id="cb52-603"><a href="#cb52-603" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-604"><a href="#cb52-604" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-605"><a href="#cb52-605" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-606"><a href="#cb52-606" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb52-607"><a href="#cb52-607" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-608"><a href="#cb52-608" aria-hidden="true" tabindex="-1"></a>Data visualization a practical introduction by Kieran Healy <span class="ot">&lt;https://socviz.co&gt;</span></span>
+<span id="cb52-609"><a href="#cb52-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-610"><a href="#cb52-610" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/ --&gt;</span></span>
+<span id="cb52-611"><a href="#cb52-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-612"><a href="#cb52-612" aria-hidden="true" tabindex="-1"></a>Fundamentals of Data Visualization by Claus Wilke <span class="ot">&lt;https://clauswilke.com/dataviz/&gt;</span> (no R) </span>
+<span id="cb52-613"><a href="#cb52-613" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-614"><a href="#cb52-614" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-615"><a href="#cb52-615" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, echo=FALSE, eval=FALSE, purl=FALSE}</span></span>
+<span id="cb52-616"><a href="#cb52-616" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">purl</span>(<span class="st">"lect1.Rmd"</span>)</span>
+<span id="cb52-617"><a href="#cb52-617" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
