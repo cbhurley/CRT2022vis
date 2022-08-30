@@ -11,6 +11,6 @@ Participants require computers with the software R and the related interface (ID
 
 
 
-[Lecture 1](http://htmlpreview.github.io/?https://github.com/cbhurley/CRT2022vis/blob/master/lect2.html)
+[Lecture 1](http://htmlpreview.github.io/?https://github.com/cbhurley/CRT2022vis/blob/master/lect1.html)
 
 [Lecture 2](http://htmlpreview.github.io/?https://github.com/cbhurley/CRT2022vis/blob/master/lect2.html)
